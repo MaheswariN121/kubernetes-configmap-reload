@@ -2,7 +2,6 @@ import os
 import requests
 import telebot
 import logging
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 BOT_TOKEN = os.environ.get('6227110303:AAGQxtr1OCXC_iddfxrorR08K0LmhXHF3Zw')
 bot = telebot.TeleBot('6227110303:AAGQxtr1OCXC_iddfxrorR08K0LmhXHF3Zw')
