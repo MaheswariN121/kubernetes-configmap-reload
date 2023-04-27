@@ -28,4 +28,4 @@ spec:
     spec:
       containers:
         - name: kubernetes-configmap-reload
-          image: mahi/kubernetes-configmap-reload:latest
+          image: mahijoe/kubernetes-configmap-reload:latest
