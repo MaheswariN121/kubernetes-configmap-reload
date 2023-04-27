@@ -1,11 +1,16 @@
+kind: Service
 apiVersion: v1
-kind: ConfigMap
 metadata:
   name: kubernetes-configmap-reload
-data:
-  config.yml: |
-    debug: true
-    log_file: /var/log/myapp.log
+spec:
+  type: LoadBalancer
+  selector:
+    app: kubernetes-configmap-reload
+  ports:
+    - name: http
+      protocol: TCP
+      # ELB's port
+      port: 8081
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -23,17 +28,4 @@ spec:
     spec:
       containers:
         - name: kubernetes-configmap-reload
-          image: mahijoe/kubernetes-configmap-reload:latest
-          volumeMounts:
-            - name: config
-              mountPath: /etc/config
-              readOnly: true
-          ports:
-            - containerPort: 8081
-      volumes:
-        - name: config
-          configMap:
-            name: kubernetes-configmap-reload
-            items:
-              - key: config.yml
-                path: config.yml
+          image: mahi/kubernetes-configmap-reload:latest
