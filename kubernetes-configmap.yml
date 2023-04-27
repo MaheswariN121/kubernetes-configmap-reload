@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: kubernetes-configmap-reload
 spec:
@@ -9,9 +9,11 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      # ELB's port
       port: 8081
+      targetPort: 8081
+
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,5 +31,18 @@ spec:
       containers:
         - name: kubernetes-configmap-reload
           image: mahijoe/kubernetes-configmap-reload:latest
-      imagePullSecrets:
-        - name: regcred
+          ports:
+            - containerPort: 8081
+          env:
+            - name: CONFIG_FILE
+              value: /config/config.yml
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          configMap:
+            name: kubernetes-configmap-reload-config
+            items:
+              - key: config.yml
+                path: config.yml
