@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-configmap-reload
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernetes-configmap-reload
+  template:
+    metadata:
+      labels:
+        app: kubernetes-configmap-reload
+    spec:
+      containers:
+      - name: kubernetes-configmap-reload
+        image: mahijoe/kubernetes-configmap-reload
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: my-registry-credentials
